@@ -24,7 +24,26 @@ int main()
 	cout << M1 << "\n"<<endl;
 
 	cout << "Creacion de una matriz usando la funcion eye(3x3)\n";
-	M1 = Mat::eye(3,3,3);
+	M1 = Mat::eye(3,3,CV_8U);
 	cout << M1 << "\n"<<endl;
+
+	//Para tener un tamaño preestablecido es con el tipo de dato Size
+	Size tipo1(3,7);
+	cout << "Creacion de una matriz usando la funcion eye(3x3) y usando el tipo de dato Size\n";
+	M1 = Mat::eye(tipo1,CV_8U);
+	cout << M1 << "\n"<<endl;
+
+	//Aritmetica con Mat
+	cout << "Sumando 2 a la matriz\n";
+	M1 += 2;
+	cout << M1 << "\n"<<endl;
+	cout << "Multiplicando por 2 a la matriz\n";
+	M1 *= 2;
+	cout << M1 << "\n"<<endl;
+
+	cout << "Dividiendo entre 3 a la matriz\n";
+	M1 /= 3;
+	cout << M1 << "\n"<<endl;
+
 	return 0;
 }
