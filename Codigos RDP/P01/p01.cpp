@@ -45,5 +45,15 @@ int main()
 	M1 /= 3;
 	cout << M1 << "\n"<<endl;
 
+	//Unas propiedades de la clase Mat
+	cout << "Numero de filas: " << M1.rows << endl;
+	cout << "Numero de columnas: " << M1.cols << endl;
+	cout << "Tamanio de la matriz: " << M1.size << endl;
+
+	//Para acceder a una posición de la matriz es con la siguiente función
+	cout << "Accediendo a un dato en particular de la matriz\n";
+	M1.at<unsigned char>(6,2) = 128;
+	cout << M1 << "\n"<<endl;
+
 	return 0;
 }
