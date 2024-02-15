@@ -7,7 +7,7 @@ Programa 2. Uso de la estructura MAT para crear matrices multidimensionales
 
 using namespace std;
 using namespace cv;
-/*Se utiliza la referencia
+/*Para utilizar paso por referencia
 Mat productoMat(Mat &A, Mat &B); 
 Y para usar la función Mr = productoMat(mx, my);
 */
@@ -67,8 +67,21 @@ Mat* productoMat(Mat* A, Mat* B)
 {
 	Mat *R;
 	R = new Mat;
-
-	*R = *A + *B;
+	if(A->cols == B->rows)
+	{
+		R->create(A->cols, B->rows, CV_8SC1);
+	}
+	else
+		cout << "No se puede realizar el producto, dimensiones no compatibles\n";
+	for(int i = 0; i < R->rows; i++)
+	for(int j = 0; j < R->cols; j++)
+	{
+		R->at<char>(i,j) = 0;
+		for (int k = 0; k < R->cols; k++)
+		{
+			R->at<char>(i,j) += A->at<char>(i,k)*B->at<char>(k,j);
+		}
+	}
 
 	return R;
 }
