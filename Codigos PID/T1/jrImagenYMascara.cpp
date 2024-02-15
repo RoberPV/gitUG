@@ -8,9 +8,9 @@
 using namespace std;
 using namespace cv;
 
-void resultadoConMascara(Mat r, Mat m, Mat inp);
-void generacionDeMascara(Mat m, int x, int y, int t);
-void movimientoMascara(int &x, int &y, Mat m);
+void resultadoConMascara(Mat &r, Mat &m, Mat &inp);
+void generacionDeMascara(Mat &m, int x, int y, int t);
+void movimientoMascara(int &x, int &y, Mat &m);
 int t = 50;
 bool ys = true, xs = true;
 
@@ -43,7 +43,7 @@ int main()
 	return 0;
 }
 
-void resultadoConMascara(Mat r, Mat m, Mat inp)
+void resultadoConMascara(Mat &r, Mat &m, Mat &inp)
 {
 	r = Mat::zeros(r.size(),CV_8UC3);
 	for(int i = 0; i < inp.rows; i++)
@@ -58,7 +58,7 @@ void resultadoConMascara(Mat r, Mat m, Mat inp)
 	}
 }
 
-void generacionDeMascara(Mat m, int x, int y, int t)
+void generacionDeMascara(Mat &m, int x, int y, int t)
 {
 	m = Mat::zeros(m.size(), CV_8UC1);
 	for(int i = x; i < t + x; i++)
@@ -70,7 +70,7 @@ void generacionDeMascara(Mat m, int x, int y, int t)
 	}
 }
 
-void movimientoMascara(int &x, int &y, Mat m)
+void movimientoMascara(int &x, int &y, Mat &m)
 {
 	if(x == 0)
 	{
