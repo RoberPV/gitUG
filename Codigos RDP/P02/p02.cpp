@@ -1,5 +1,5 @@
 /*
-Programa 2. Uso de la estructura MAT para crear matrices multidimensionales
+Programa 2. Uso de la estructura MAT para acceder a la matriz
 */
 
 #include <iostream>
