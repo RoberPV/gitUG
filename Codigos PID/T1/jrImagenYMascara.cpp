@@ -14,7 +14,7 @@ void resultadoConMascara(Mat &r, Mat &m, Mat &inp);
 void generacionDeMascara(Mat &m, int x, int y, int t);
 void movimientoMascara(int &x, int &y, Mat &m);
 
-int t = 50, xr, yr;
+int t = 150, xr, yr;
 bool ys = true, xs = true;
 
 int main()
@@ -72,27 +72,27 @@ void generacionDeMascara(Mat &m, int x, int y, int t)
 void movimientoMascara(int &x, int &y, Mat &m)
 {
 	srand(time(NULL));
-	if(x == 0)
+	if(x <= 0)
 	{
 		xs = true;
-		xr = 1 + rand()%(4-1);
+		xr = 1 + rand()%(3-1);
 	}
 
-	if(y == 0)
+	if(y <= 0)
 	{
 		ys = true;
-		yr = 1 + rand()%(4-1);
+		yr = 1 + rand()%(3-1);
 	}
 
-	if(x == m.rows - t)
+	if(x >= m.rows - t)
 	{
 		xs = false;
-		xr = 1 + rand()%(4-1);
+		xr = 1 + rand()%(3-1);
 	}
-	if(y == m.cols - t)
+	if(y >= m.cols - t)
 	{
 		ys = false;
-		yr = 1 + rand()%(4-1);
+		yr = 1 + rand()%(3-1);
 	}
 
 	if(xs)
@@ -112,5 +112,4 @@ void movimientoMascara(int &x, int &y, Mat &m)
 	{
 		y -=yr;
 	}
-
 }
