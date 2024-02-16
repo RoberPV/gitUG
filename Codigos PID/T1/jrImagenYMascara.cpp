@@ -1,5 +1,7 @@
 #include <iostream>
 #include <unistd.h>
+#include<stdlib.h>
+#include<time.h>
 #include "opencv2\core.hpp"
 #include "opencv2\imgcodecs.hpp"
 #include "opencv2\highgui.hpp"
@@ -11,13 +13,13 @@ using namespace cv;
 void resultadoConMascara(Mat &r, Mat &m, Mat &inp);
 void generacionDeMascara(Mat &m, int x, int y, int t);
 void movimientoMascara(int &x, int &y, Mat &m);
-int t = 50;
+
+int t = 50, xr, yr;
 bool ys = true, xs = true;
 
 int main()
 {
 	cout << "Inicia programa donde se aplica una mascara a una imagen.\n";
-
 	Mat input, mask, res;
 	input = imread("C:/Users/rprie/OneDrive - Universidad de Guanajuato/MIE/Segundo Cuatrimestre/Procesamiento de imagenes/Imagenes/Tarea 1/Paisaje.jpg",IMREAD_COLOR);
 	int xpos = 0, ypos = 0;
@@ -28,18 +30,15 @@ int main()
 	{
 		generacionDeMascara(mask, xpos, ypos, t);
 		resultadoConMascara(res,mask,input);
-		
 		movimientoMascara(xpos, ypos, mask);
-
 		imshow("Resultado", res);
 		usleep(2000);
-		waitKey(10);
 		int key = waitKey(10);
         if (key == 'q' || key == 27)
             break;
 	}
 	while(true);
-	waitKey(0);
+
 	return 0;
 }
 
@@ -72,30 +71,46 @@ void generacionDeMascara(Mat &m, int x, int y, int t)
 
 void movimientoMascara(int &x, int &y, Mat &m)
 {
+	srand(time(NULL));
 	if(x == 0)
 	{
 		xs = true;
+		xr = 1 + rand()%(4-1);
 	}
 
 	if(y == 0)
 	{
 		ys = true;
+		yr = 1 + rand()%(4-1);
 	}
 
 	if(x == m.rows - t)
 	{
 		xs = false;
+		xr = 1 + rand()%(4-1);
+	}
+	if(y == m.cols - t)
+	{
+		ys = false;
+		yr = 1 + rand()%(4-1);
 	}
 
 	if(xs)
 	{
-		x += 2;
+		x += xr;
 	}
 	else
 	{
-		x-=2;
+		x-=xr;
 	}
 
-	if(ys) y ++;
+	if(ys)
+	{
+		y += yr;
+	}
+	else
+	{
+		y -=yr;
+	}
 
 }
