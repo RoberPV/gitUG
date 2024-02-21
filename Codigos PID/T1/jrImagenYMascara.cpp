@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <time.h>
+#include <opencv2\opencv.hpp>
 #include "opencv2\core.hpp"
 #include "opencv2\imgcodecs.hpp"
 #include "opencv2\highgui.hpp"
@@ -11,36 +12,46 @@ using namespace std;
 using namespace cv;
 
 void resultadoConMascara(Mat &r, Mat &m, Mat &inp);
-void generacionDeMascara(Mat &m, int x, int y, int t);
-void movimientoMascara(int &x, int &y, Mat &m);
+void generacionDeMascara(Mat &m, int x, int y, int t, char fig);
+void movimientoMascara(int &x, int &y, Mat &m, char fig);
 
-int t = 150, xr, yr;
+int t = 150, xr = 1, yr = 1;
 bool ys = true, xs = true;
+char f;
 
 int main()
 {
 	cout << "Inicia programa donde se aplica una mascara a una imagen.\n";
 	Mat input, mask, res;
 	input = imread("C:/Users/rprie/OneDrive - Universidad de Guanajuato/MIE/Segundo Cuatrimestre/Procesamiento de imagenes/Imagenes/Tarea 1/Paisaje.jpg",IMREAD_COLOR);
-	int xpos = 50, ypos = 50;
+	int xpos = 0, ypos = 0;
 	mask = Mat::zeros(input.rows, input.cols, CV_8UC1);
 	res = Mat::zeros(input.rows, input.cols, CV_8UC3);
-	
 	do
 	{
-		printf("\nIngresa el size de la mascara del cuadrado: \n");
+		cout << "\nElije la figura de la mascara (r - rectangulo) o (c - circulo)\n";
+		cin >> f;
+		if(f == 'r' || f == 'c') break;
+		else
+			cout << "\nFigura no reconocida\n";
+	}
+	while(true);
+
+	do
+	{
+		cout << "\nIngresa el size de la mascara del cuadrado: \n";
 		cin >> t;
 		if(t < input.rows) break;
 	}
 	while(true);
 
-	/*do
+	do
 	{
-		printf("\nIngresa la x inicial de la mascara: \n");
+		cout << "\nIngresa la x inicial de la mascara: \n";
 		cin >> xpos;
 		if(0 >= xpos <= input.cols)
 		{
-			printf("\nIngresa la y inicial de la mascara: \n");
+			cout << "\nIngresa la y inicial de la mascara: \n";
 			cin >> ypos;
 			if(0 >= ypos <= input.cols)
 			{
@@ -56,13 +67,14 @@ int main()
 			cout << "\nX no valida";
 		}
 	}
-	while(true);*/
+	while(true);
 
 	do
 	{
-		generacionDeMascara(mask, xpos, ypos, t);
+		generacionDeMascara(mask, xpos, ypos, t, f);
 		resultadoConMascara(res,mask,input);
-		movimientoMascara(xpos, ypos, mask);
+		movimientoMascara(xpos, ypos, mask, f);
+
 		imshow("Resultado", res);
 		usleep(2000);
 		int key = waitKey(10);
@@ -89,33 +101,59 @@ void resultadoConMascara(Mat &r, Mat &m, Mat &inp)
 	}
 }
 
-void generacionDeMascara(Mat &m, int x, int y, int t)
+void generacionDeMascara(Mat &m, int x, int y, int t, char fig)
 {
 	m = Mat::zeros(m.size(), CV_8UC1);
-	for(int i = x; i < t + x; i++)
+	switch(fig)
 	{
-		for(int j = y; j < t + y; j++)
+	case 'r':
+		for(int i = x; i < t + x; i++)
 		{
-			m.at<unsigned char>(i,j) = 255;
+			for(int j = y; j < t + y; j++)
+			{
+				m.at<unsigned char>(j,i) = 255;
+			}
 		}
+		break;
+	case 'c':
+		Point centro(x , y);
+		circle(m,centro,t,Scalar(255),-1);
+		break;
 	}
+
+	
 }
 
-void movimientoMascara(int &x, int &y, Mat &m)
+void movimientoMascara(int &x, int &y, Mat &m, char fig)
 {
 	srand(time(NULL));
-	if(x <= 0)
+	if(fig == 'r')
 	{
-		xs = true;
-		xr = 1 + rand()%(3-1);
+		if(x <= 0)
+		{
+			xs = true;
+			xr = 1 + rand()%(3-1);
+		}
+		if(y <= 0)
+		{
+			ys = true;
+			yr = 1 + rand()%(3-1);
+		}
 	}
-
-	if(y <= 0)
+	else
 	{
-		ys = true;
-		yr = 1 + rand()%(3-1);
-	}
+		if(x <= t)
+		{
+			xs = true;
+			xr = 1 + rand()%(3-1);
+		}
 
+		if(y <= t)
+		{
+			ys = true;
+			yr = 1 + rand()%(3-1);
+		}
+	}
 	if(x >= m.rows - t)
 	{
 		xs = false;
@@ -126,22 +164,12 @@ void movimientoMascara(int &x, int &y, Mat &m)
 		ys = false;
 		yr = 1 + rand()%(3-1);
 	}
-
 	if(xs)
-	{
 		x += xr;
-	}
 	else
-	{
 		x-=xr;
-	}
-
 	if(ys)
-	{
 		y += yr;
-	}
 	else
-	{
 		y -=yr;
-	}
 }
