@@ -1,7 +1,7 @@
 #include <iostream>
 #include <unistd.h>
-#include<stdlib.h>
-#include<time.h>
+#include <stdlib.h>
+#include <time.h>
 #include "opencv2\core.hpp"
 #include "opencv2\imgcodecs.hpp"
 #include "opencv2\highgui.hpp"
@@ -25,6 +25,38 @@ int main()
 	int xpos = 0, ypos = 0;
 	mask = Mat::zeros(input.rows, input.cols, CV_8UC1);
 	res = Mat::zeros(input.rows, input.cols, CV_8UC3);
+	
+	do
+	{
+		printf("\nIngresa el size de la mascara del cuadrado: \n");
+		cin >> t;
+		if(t < input.rows) break;
+	}
+	while(true);
+
+	do
+	{
+		printf("\nIngresa la x inicial de la mascara: \n");
+		cin >> xpos;
+		if(0 >= xpos <= input.cols)
+		{
+			printf("\nIngresa la y inicial de la mascara: \n");
+			cin >> ypos;
+			if(0 >= ypos <= input.cols)
+			{
+				break;
+			}
+			else
+			{
+				cout << "\nY no valida";
+			}
+		}
+		else
+		{
+			cout << "\nX no valida";
+		}
+	}
+	while(true);
 
 	do
 	{
