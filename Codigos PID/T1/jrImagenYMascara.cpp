@@ -27,45 +27,36 @@ int main()
 	int xpos = 0, ypos = 0;
 	mask = Mat::zeros(input.rows, input.cols, CV_8UC1);
 	res = Mat::zeros(input.rows, input.cols, CV_8UC3);
+
 	do
 	{
 		cout << "\nElije la figura de la mascara (r - rectangulo) o (c - circulo)\n";
 		cin >> f;
-		if(f == 'r' || f == 'c') break;
-		else
-			cout << "\nFigura no reconocida\n";
-	}
-	while(true);
-
-	do
-	{
-		cout << "\nIngresa el size de la mascara del cuadrado: \n";
-		cin >> t;
-		if(t < input.rows) break;
-	}
-	while(true);
-
-	do
-	{
-		cout << "\nIngresa la x inicial de la mascara: \n";
-		cin >> xpos;
-		if(0 >= xpos <= input.cols)
+		if(f == 'r' || f == 'c')
 		{
-			cout << "\nIngresa la y inicial de la mascara: \n";
-			cin >> ypos;
-			if(0 >= ypos <= input.cols)
+			cout << "\nIngresa el size de la mascara del cuadrado: \n";
+			cin >> t;
+			if(t < input.rows)
 			{
-				break;
+				cout << "\nIngresa la x inicial de la mascara: \n";
+				cin >> xpos;
+				if(xpos >= 0 && xpos <= input.cols)
+				{
+					cout << "\nIngresa la y inicial de la mascara: \n";
+					cin >> ypos;
+					if(ypos >= 0 && ypos <= input.rows)
+						break;
+					else
+						cout << "\nY no valida";
+				}
+				else
+					cout << "\nX no valida";
 			}
 			else
-			{
-				cout << "\nY no valida";
-			}
+				cout << "\nMascara muy grande";
 		}
 		else
-		{
-			cout << "\nX no valida";
-		}
+			cout << "\nFigura no reconocida\n";
 	}
 	while(true);
 
