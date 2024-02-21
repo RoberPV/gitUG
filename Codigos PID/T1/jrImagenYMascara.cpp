@@ -22,7 +22,7 @@ int main()
 	cout << "Inicia programa donde se aplica una mascara a una imagen.\n";
 	Mat input, mask, res;
 	input = imread("C:/Users/rprie/OneDrive - Universidad de Guanajuato/MIE/Segundo Cuatrimestre/Procesamiento de imagenes/Imagenes/Tarea 1/Paisaje.jpg",IMREAD_COLOR);
-	int xpos = 0, ypos = 0;
+	int xpos = 50, ypos = 50;
 	mask = Mat::zeros(input.rows, input.cols, CV_8UC1);
 	res = Mat::zeros(input.rows, input.cols, CV_8UC3);
 	
@@ -34,7 +34,7 @@ int main()
 	}
 	while(true);
 
-	do
+	/*do
 	{
 		printf("\nIngresa la x inicial de la mascara: \n");
 		cin >> xpos;
@@ -56,7 +56,7 @@ int main()
 			cout << "\nX no valida";
 		}
 	}
-	while(true);
+	while(true);*/
 
 	do
 	{
