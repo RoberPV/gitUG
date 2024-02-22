@@ -65,7 +65,8 @@ int main()
 		generacionDeMascara(mask, xpos, ypos, t, f);
 		resultadoConMascara(res,mask,input);
 		movimientoMascara(xpos, ypos, mask, f);
-
+		imshow("Mascara", mask);
+		imshow("Imagen", input);
 		imshow("Resultado", res);
 		usleep(2000);
 		int key = waitKey(10);
