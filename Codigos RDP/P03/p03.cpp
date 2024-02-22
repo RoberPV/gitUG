@@ -46,12 +46,11 @@ int main()
 	MX = MX + Scalar(1,1,1);
 	//MX = MX - Scalar(1,1,1);
 	*/
-	
-	Mat mx;
+
 
 	//mx = Mat::zeros(256,256,CV_8UC1);
 	////mx = Mat::ones(256,256,CV_8UC1);
-
+	/*
 	mx = Mat::eye(256,256,CV_8UC1);
 	mx = 255*mx;
 
@@ -60,6 +59,117 @@ int main()
 
 	imshow("Imagen",mx);
 	imwrite("Resultado.jpg", mx);
+	*/
+	Mat mx, mx2;
+	mx = imread("C:/Users/rprie/OneDrive - Universidad de Guanajuato/MIE/Segundo Cuatrimestre/Reconocimiento de patrones/Imagenes/uno.bmp",IMREAD_UNCHANGED);
+	mx2 = imread("C:/Users/rprie/OneDrive - Universidad de Guanajuato/MIE/Segundo Cuatrimestre/Reconocimiento de patrones/Imagenes/dos.bmp",IMREAD_UNCHANGED);
+
+	if(mx.empty())
+	{
+		cout << "No existe el archivo" << endl;
+	}
+	else
+	{
+		/*Mat b = Mat::ones(mx.rows,mx.cols,CV_8UC1);
+		b= 255*b;
+		mx = mx + b; // La matriz trunca el limite superior ha 255 en el formato 8U
+		imshow("Imagen generada", b);
+
+		for(int j = 0; j < mx.cols; j++)
+		mx.at<char>(128,j) = 0;*/
+
+		/*imshow("Imagen UNO", mx);
+		for(int i = 0; i < mx.rows; i++)
+			for(int j = 0; j < mx.cols; j++)
+				if(mx.at<unsigned char>(i,j) > 128)
+					mx.at<unsigned char>(i,j) = 255;
+				else
+					mx.at<unsigned char>(i,j) = 0;
+		imshow("Imagen UNO Binarizada", mx);*/
+
+		/*mx = 255 - mx; //Genera el negativo de una imagen
+		imshow("Imagen UNO negativo", mx);*/
+		unsigned char aux, aux2;
+		Mat b = Mat::ones(mx.rows,mx.cols,CV_32FC1);
+		Mat r = Mat::zeros(mx.rows,mx.cols,CV_32FC1);
+		b = 255 * b;
+		unsigned char min , max;
+		max = mx.at<unsigned char>(0,0);
+		min = max;
+		for(int i = 0; i < mx.rows; i++)
+			for(int j = 0; j < mx.cols; j++)
+			{
+				if(mx.at<unsigned char>(i,j) < min)
+					min = mx.at<unsigned char>(i,j);
+				if(mx.at<unsigned char>(i,j) > max)
+					max = mx.at<unsigned char>(i,j);
+			}
+		
+		cout << "Maximo de la imagen original: " << (int) max << endl;
+		cout << "Minimo de la imagen original: " << (int) min << endl;
+
+		for(int i = 0; i < mx.rows; i++)
+			for(int j = 0; j < mx.cols; j++)
+			{
+				aux = mx.at<unsigned char>(i,j);
+				b.at<float>(i,j) += (float)aux;
+			}
+		imshow("Imagen Sumada", b);
+		float minS, maxS;
+		maxS = b.at<float>(0,0);
+		minS = maxS;
+		for(int i = 0; i < mx.rows; i++)
+			for(int j = 0; j < mx.cols; j++)
+			{
+				if(b.at<float>(i,j) < minS)
+					minS = b.at<float>(i,j);
+				if(b.at<float>(i,j) > maxS)
+					maxS = b.at<float>(i,j);
+			}
+		
+		cout << "Maximo de la imagen sumada: " <<  maxS << endl;
+		cout << "Minimo de la imagen sumada: " <<  minS << endl;
+
+		float rango = maxS - minS;
+		for(int i = 0; i < mx.rows; i++)
+			for(int j = 0; j < mx.cols; j++)
+			{
+				b.at<float>(i,j) = (b.at<float>(i,j) - minS)/rango;
+			}
+		imshow("Imagen ajustada", b);
+
+		for(int i = 0; i < mx.rows; i++)
+			for(int j = 0; j < mx.cols; j++)
+			{
+				aux = mx.at<unsigned char>(i,j);
+				aux2 = mx2.at<unsigned char>(i,j);
+				r.at<float>(i,j) = (float)aux + (float)aux2;
+			}
+
+		float minR, maxR;
+		maxR = r.at<float>(0,0);
+		minR = maxR;
+		for(int i = 0; i < r.rows; i++)
+			for(int j = 0; j < r.cols; j++)
+			{
+				if(r.at<float>(i,j) < minR)
+					minR = r.at<float>(i,j);
+				if(r.at<float>(i,j) > maxR)
+					maxR = r.at<float>(i,j);
+			}
+		imshow("Suma de Imagenes", r);
+
+		float rango2 = maxR - minR;
+		for(int i = 0; i < r.rows; i++)
+			for(int j = 0; j < r.cols; j++)
+			{
+				r.at<float>(i,j) = ((r.at<float>(i,j) - minR)/rango2);
+			}
+		imshow("Imagen ajustada", r);
+		cout << "Maximo de la imagenes sumadas: " <<  maxR << endl;
+		cout << "Minimo de la imagenes sumadas: " <<  minR << endl;
+
+	}
 
 	cout << "Numero de filas: " << mx.rows << endl;
 	cout << "Numero de columnas: " << mx.cols << endl;
