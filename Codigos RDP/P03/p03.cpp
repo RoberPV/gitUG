@@ -10,6 +10,8 @@ Programa 3. Uso de la estructura MAT para crear matrices multidimensionales
 using namespace std;
 using namespace cv;
 
+void ajusteDeRango(Mat input);
+
 int main()
 {
 
@@ -136,7 +138,7 @@ int main()
 			{
 				b.at<float>(i,j) = (b.at<float>(i,j) - minS)/rango;
 			}
-		imshow("Imagen ajustada", b);
+		imshow("Imagen ajustada B", b);
 
 		for(int i = 0; i < mx.rows; i++)
 			for(int j = 0; j < mx.cols; j++)
@@ -145,30 +147,7 @@ int main()
 				aux2 = mx2.at<unsigned char>(i,j);
 				r.at<float>(i,j) = (float)aux + (float)aux2;
 			}
-
-		float minR, maxR;
-		maxR = r.at<float>(0,0);
-		minR = maxR;
-		for(int i = 0; i < r.rows; i++)
-			for(int j = 0; j < r.cols; j++)
-			{
-				if(r.at<float>(i,j) < minR)
-					minR = r.at<float>(i,j);
-				if(r.at<float>(i,j) > maxR)
-					maxR = r.at<float>(i,j);
-			}
-		imshow("Suma de Imagenes", r);
-
-		float rango2 = maxR - minR;
-		for(int i = 0; i < r.rows; i++)
-			for(int j = 0; j < r.cols; j++)
-			{
-				r.at<float>(i,j) = ((r.at<float>(i,j) - minR)/rango2);
-			}
-		imshow("Imagen ajustada", r);
-		cout << "Maximo de la imagenes sumadas: " <<  maxR << endl;
-		cout << "Minimo de la imagenes sumadas: " <<  minR << endl;
-
+		ajusteDeRango(r);
 	}
 
 	cout << "Numero de filas: " << mx.rows << endl;
@@ -181,3 +160,30 @@ int main()
 
 	return 0;
 }
+
+void ajusteDeRango(Mat r)
+{
+	float min, max;
+	max = r.at<float>(0,0);
+	min = max;
+	for(int i = 0; i < r.rows; i++)
+		for(int j = 0; j < r.cols; j++)
+		{
+			if(r.at<float>(i,j) < min)
+				min = r.at<float>(i,j);
+			if(r.at<float>(i,j) > max)
+				max = r.at<float>(i,j);
+		}
+	imshow("Suma de Imagenes", r);
+
+	float rango = max - min;
+	for(int i = 0; i < r.rows; i++)
+		for(int j = 0; j < r.cols; j++)
+		{
+			r.at<float>(i,j) = ((r.at<float>(i,j) - min)/rango);
+		}
+	imshow("Imagen ajustada", r);
+	cout << "Maximo de la imagenes sumadas: " <<  max << endl;
+	cout << "Minimo de la imagenes sumadas: " <<  min << endl;
+}
+
