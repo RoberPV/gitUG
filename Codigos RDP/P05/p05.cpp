@@ -18,8 +18,8 @@ int DirAnterior(int ia, int ja, int in, int jn);
 int main()
 {
 	Mat mx;
-	mx = imread("C:/Users/rprie/OneDrive - Universidad de Guanajuato/MIE/Segundo Cuatrimestre/Reconocimiento de patrones/Imagenes/Nube.bmp",IMREAD_UNCHANGED);
-	int dirA, perimetro = 0, area = 0, alto, ancho, rini_i, rini_j, rfin_i, rfin_j;
+	mx = imread("C:/Users/rprie/OneDrive - Universidad de Guanajuato/MIE/Segundo Cuatrimestre/Reconocimiento de patrones/Imagenes/Rayo.bmp",IMREAD_UNCHANGED);
+	int dirA, perimetro = 0, area = 0, alto, ancho, rini_i, rini_j, rfin_i, rfin_j, cx, cy, centroidex, centroidey, sumax = 0, sumay = 0;
 
 	if(mx.empty())
 	{
@@ -115,7 +115,36 @@ int main()
 			mx.at<Vec3b>(i,rfin_j)[1] = 0;
 			mx.at<Vec3b>(i,rfin_j)[2] = 255;
 		}
-			
+
+		//Centro geometrico
+
+		cx = (rfin_j - rini_j)/2 + rini_j;
+		cy = (rfin_i - rini_i)/2 + rini_i;
+		mx.at<Vec3b>(cy,cx)[0] = 0;
+		mx.at<Vec3b>(cy,cx)[1] = 0;
+		mx.at<Vec3b>(cy,cx)[2] = 255;
+
+		// Centroide
+
+		for(int i = 0; i < mx.rows ; i++)
+			for(int j = 0; j < mx.cols; j++)
+			{
+				r = (float)mx.at<Vec3b>(i,j)[0];
+				if(r == 0)
+				{
+					//Se suman las coordenadas de cada pixel negro
+					sumax += j;
+					sumay += i;
+				}
+			}
+
+		centroidex = sumax/area;
+		centroidey = sumay/area;
+
+		mx.at<Vec3b>(centroidey,centroidex)[0] = 0;
+		mx.at<Vec3b>(centroidey,centroidex)[1] = 255;
+		mx.at<Vec3b>(centroidey,centroidex)[2] = 255;
+
 		imshow("Resultado", mx);
 		cout << "Perimetro: " << perimetro << endl;
 		cout << "Area: " << area << endl; 
