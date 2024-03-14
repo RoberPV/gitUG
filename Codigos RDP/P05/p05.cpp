@@ -19,7 +19,7 @@ int main()
 {
 	Mat mx;
 	mx = imread("C:/Users/rprie/OneDrive - Universidad de Guanajuato/MIE/Segundo Cuatrimestre/Reconocimiento de patrones/Imagenes/Nube.bmp",IMREAD_UNCHANGED);
-	int dirA, contador = 0;
+	int dirA, perimetro = 0, area = 0, alto, ancho, rini_i, rini_j, rfin_i, rfin_j;
 
 	if(mx.empty())
 	{
@@ -56,18 +56,71 @@ int main()
 			Iact = Inew;
 			Jact = Jnew;
 			dir = dirA;
-			contador++;
+			perimetro++;
 		}
 		while(!((Is == Inew)&&(Js == Jnew)));
-		//mx.convertTo(mx,CV_32FC3); imshow no sirve con datos flotantes
-		//imshow("Imagen Gris", mx);
-		//mx.convertTo(mx,CV_8UC3); se regresa a char
+		
+		for(int i = 0; i < mx.rows ; i++)
+			for(int j = 0; j < mx.cols; j++)
+			{
+				r = (float)mx.at<Vec3b>(i,j)[0];
+				//g = (float)mx.at<Vec3b>(i,j)[1];
+				//b = (float)mx.at<Vec3b>(i,j)[2];
+				if(r == 0) area++;
+			}
+		//Dibujar bounding box
+		int ymin, ymax, xmin, xmax;
+		xmax = 0;
+		xmin = mx.cols;
+		ymax = 0;
+		ymin = mx.rows;
 
-		// Calculo de la imagen en negativo
-		//mx = Scalar(255,255,255) - mx;
+		for(int i = 0; i < mx.rows ; i++)
+			for(int j = 0; j < mx.cols; j++)
+			{
+				r = (float)mx.at<Vec3b>(i,j)[0];
+				//g = (float)mx.at<Vec3b>(i,j)[1];
+				//b = (float)mx.at<Vec3b>(i,j)[2];
+				if(r == 0)
+				{
+					if(i < ymin) ymin = i;
+					if(i > ymax) ymax = i;
+					if(j < xmin) xmin = j;
+					if(j > xmax) xmax = j;
+				}
+			}
+		alto = ymax - ymin;
+		ancho = xmax - xmin;
 
+		rini_i = ymin;
+		rini_j = xmin;
+		rfin_i = ymax;
+		rfin_j = xmax;
+		
+		for(int j = rini_j; j < rfin_j; j++)
+		{
+			mx.at<Vec3b>(rini_i,j)[0] = 0;
+			mx.at<Vec3b>(rini_i,j)[1] = 0;
+			mx.at<Vec3b>(rini_i,j)[2] = 255;
+			mx.at<Vec3b>(rfin_i,j)[0] = 0;
+			mx.at<Vec3b>(rfin_i,j)[1] = 0;
+			mx.at<Vec3b>(rfin_i,j)[2] = 255;
+		}
+		for(int i = rini_i; i < rfin_i; i++)
+		{
+			mx.at<Vec3b>(i,rini_j)[0] = 0;
+			mx.at<Vec3b>(i,rini_j)[1] = 0;
+			mx.at<Vec3b>(i,rini_j)[2] = 255;
+			mx.at<Vec3b>(i,rfin_j)[0] = 0;
+			mx.at<Vec3b>(i,rfin_j)[1] = 0;
+			mx.at<Vec3b>(i,rfin_j)[2] = 255;
+		}
+			
 		imshow("Resultado", mx);
-		cout << "Perimetro: " << contador << endl; 
+		cout << "Perimetro: " << perimetro << endl;
+		cout << "Area: " << area << endl; 
+		cout << "Alto: " << alto << endl;
+		cout << "Ancho: " << ancho << endl;
 		cout << "Numero de filas: " << mx.rows << endl;
 		cout << "Numero de columnas: " << mx.cols << endl;
 		cout << "Tamanio de la matriz: " << mx.size << endl;
