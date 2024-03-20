@@ -2,7 +2,7 @@
 Fecha: 11/03/2024
 Extracción de caracteristicas geometricas para la clasificación de objetos en una imagen.
 
-Programa 5. Calculo de perimetro
+Programa 5. Calculo de perimetro, area, bounding box, centroide y centro geometrico.
 */
 #include <iostream>
 #include "opencv2\core.hpp"
@@ -119,7 +119,10 @@ int main()
 		//Centro geometrico
 
 		cx = (rfin_j - rini_j)/2 + rini_j;
+		//otra opcion es (rfin_j + rini_j)/2
 		cy = (rfin_i - rini_i)/2 + rini_i;
+		//otra opcion es (rfin_i + rini_i)/2
+
 		mx.at<Vec3b>(cy,cx)[0] = 0;
 		mx.at<Vec3b>(cy,cx)[1] = 0;
 		mx.at<Vec3b>(cy,cx)[2] = 255;
