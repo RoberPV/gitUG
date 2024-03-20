@@ -23,38 +23,38 @@ int main()
 
 	split(img, canales);
 
-	/*imgrayI = (canales[0]+canales[1]+canales[2])/3;
+	imgrayI = (canales[0]+canales[1]+canales[2])/3;
 
 	clahe->apply(imgrayI, imagenCLAHEI);
-    threshold(imgrayI, imagenBinariaI, 0, 255, cv::THRESH_BINARY | cv::THRESH_OTSU);
+    /*threshold(imgrayI, imagenBinariaI, 0, 255, cv::THRESH_BINARY | cv::THRESH_OTSU);
 	imshow("Escala de gris (Intensity)", imgrayI);
 	imshow("Escala de gris (Intensity) con CLAHE", imagenCLAHEI);
-	imshow("Escala de gris (Intensity) con CLAHE y Otsu", imagenBinariaI);*/
+	imshow("Escala de gris (Intensity) con CLAHE y Otsu", imagenBinariaI);
 
 	transpose(canales[0],b);
 	transpose(canales[1],g);
 	transpose(canales[2],r);
 
-	/*imgrayG = (b+g+r)/3;
+	imgrayG = (b+g+r)/3;
 	clahe->apply(imgrayG, imagenCLAHEG);
     threshold(imgrayG, imagenBinariaG, 0, 255, cv::THRESH_BINARY | cv::THRESH_OTSU);
 	imshow("Escala de gris (Gleam)", imgrayG);
 	imshow("Escala de gris (Gleam) con CLAHE", imagenCLAHEG);
-	imshow("Escala de gris (Gleam) con Otsu", imagenBinariaG);*/
+	imshow("Escala de gris (Gleam) con Otsu", imagenBinariaG);
 
-	/*imgrayL = (0.3*canales[2]+0.59*canales[1]+0.11*canales[0]);
+	imgrayL = (0.3*canales[2]+0.59*canales[1]+0.11*canales[0]);
 	clahe->apply(imgrayL, imagenCLAHEL);
     threshold(imgrayL, imagenBinariaL, 0, 255, cv::THRESH_BINARY | cv::THRESH_OTSU);
 	imshow("Escala de gris (Luminance)", imgrayL);
 	imshow("Escala de gris (Luminance) con CLAHE", imagenCLAHEL);
-	imshow("Escala de gris (Luminance) con Otsu", imagenBinariaL);*/
+	imshow("Escala de gris (Luminance) con Otsu", imagenBinariaL);
 
-	/*imgrayLuma = (0.2126*r+0.7152*g+0.0722*b);
+	imgrayLuma = (0.2126*r+0.7152*g+0.0722*b);
 	clahe->apply(imgrayLuma, imagenCLAHELuma);
     threshold(imgrayLuma, imagenBinariaLuma, 0, 255, cv::THRESH_BINARY | cv::THRESH_OTSU);
-	imshow("Escala de gris (Luminance)", imgrayLuma);
-	imshow("Escala de gris (Luminance) con CLAHE", imagenCLAHELuma);
-	imshow("Escala de gris (Luminance) con Otsu", imagenBinariaLuma);*/
+	imshow("Escala de gris (Luma)", imgrayLuma);
+	imshow("Escala de gris (Luma) con CLAHE", imagenCLAHELuma);
+	imshow("Escala de gris (Luma) con Otsu", imagenBinariaLuma);*/
 
  	Mat imgrayV(img.rows, img.cols, CV_8UC1);
     
@@ -78,9 +78,9 @@ int main()
     clahe->apply(imgrayV, imagenCLAHEV);
     //threshold(imgrayV, imagenBinariaV, 216, 255, THRESH_OTSU);
     adaptiveThreshold(imgrayV, imagenBinariaV, 255, ADAPTIVE_THRESH_GAUSSIAN_C, THRESH_BINARY, 7, 12);
-	imshow("Escala de gris (Valor)", imgrayV);
+	imshow("Escala de gris (Valor) normalizada y con blur", imgrayV);
 	imshow("Escala de gris (Luminance) con CLAHE", imagenCLAHEV);
-	imshow("Escala de gris (Luminance) con Otsu", imagenBinariaV);
+	imshow("Escala de gris (Luminance) umbralizacion", imagenBinariaV);
 	waitKey(0);
 
 	return 0;
